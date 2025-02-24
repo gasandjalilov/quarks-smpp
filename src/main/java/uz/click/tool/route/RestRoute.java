@@ -5,6 +5,9 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import uz.click.tool.dto.SMPPSimpleMessage;
 
+/**
+ * Rest Route Implementation
+ */
 @ApplicationScoped
 public class RestRoute extends RouteBuilder {
     @Override

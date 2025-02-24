@@ -5,6 +5,10 @@ import org.apache.camel.Processor;
 import org.jsmpp.bean.Alphabet;
 import uz.click.tool.dto.SMPPSimpleMessage;
 
+/**
+ * Message processing using.
+ * Basically transforms message to smpp exchange.
+ */
 public class SMPPProcessor implements Processor {
 
 
