@@ -6,8 +6,6 @@ import jakarta.inject.Inject;
 @QuarkusTest
 class MyMessagingApplicationTest {
 
-    @Inject
-    MyMessagingApplication application;
 
 
 }
