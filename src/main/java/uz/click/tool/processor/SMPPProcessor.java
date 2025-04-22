@@ -5,11 +5,15 @@ import org.apache.camel.Processor;
 import org.jsmpp.bean.Alphabet;
 import uz.click.tool.dto.SMPPSimpleMessage;
 
+import java.util.regex.Pattern;
+
 /**
  * Message processing using.
  * Basically transforms message to smpp exchange.
  */
 public class SMPPProcessor implements Processor {
+
+    private Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
 
 
     public void process(Exchange exchange) throws Exception {
@@ -23,6 +27,12 @@ public class SMPPProcessor implements Processor {
         exchange.getIn().setHeader("CamelSmppServiceType", "WAP");
         exchange.getIn().setHeader("CamelSmppRegisteredDelivery", (byte) 0);
 
+        if(isNumeric(msg.alpha())){
+            exchange.getIn().setHeader("CamelSmppSourceAddr", msg.alpha());
+            exchange.getIn().setHeader("CamelSmppSourceAddrTon", (byte) 1);
+            exchange.getIn().setHeader("CamelSmppSourceAddrNpi", (byte) 1);
+        }
+
         if(msg.message().chars()
                 .mapToObj(Character.UnicodeBlock::of)
                 .anyMatch(Character.UnicodeBlock.CYRILLIC::equals)) {
@@ -32,4 +42,11 @@ public class SMPPProcessor implements Processor {
         exchange.getIn().setBody(msg.message());
     }
 
+
+    public boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        return pattern.matcher(strNum).matches();
+    }
 }

@@ -19,8 +19,11 @@ public class MessageRouter extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:smpp")
+                .log(">>> [SMPP Router] Received message: ${body}")
                 .routeId("message-router")
                 .process(new SMPPProcessor())
-                .toD(smpp);
+                .log(">>> [SMPP Router] After processing: ${body}")
+                .toD(smpp)
+                .log(">>> [SMPP Router] Message sent to SMPP endpoint: ${headers}");
     }
 }
